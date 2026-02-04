@@ -51,5 +51,13 @@
 - **Problem Statement**: [Insert Problem Statement]
 - **Solution Type**: Software (Web Application)
 
+## 🏆 Credits & Attributions
+- **Natural Language Processing**: [TextBlob](https://textblob.readthedocs.io/)
+- **ORM & Database**: [SQLAlchemy](https://www.sqlalchemy.org/)
+- **Icons**: [FontAwesome](https://fontawesome.com/)
+- **Typography**: [Google Fonts (Inter)](https://fonts.google.com/specimen/Inter)
+- **Deployment**: [Vercel](https://vercel.com/)
+- **Framework**: [Flask](https://flask.palletsprojects.com/)
+
 ---
 *Created with ❤️ for HackElite.*
