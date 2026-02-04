@@ -32,7 +32,7 @@ An AI-powered platform designed to streamline the process of filing grievances a
 - **ORM & Database**: [SQLAlchemy](https://www.sqlalchemy.org/)
 - **Icons**: [FontAwesome](https://fontawesome.com/)
 - **Typography**: [Google Fonts (Inter)](https://fonts.google.com/specimen/Inter)
-- **Deployment**: [PythonAnywhere](https://www.pythonanywhere.com/) ✅
+- **Deployment**: [PythonAnywhere](https://www.pythonanywhere.com/)
 - **Framework**: [Flask](https://flask.palletsprojects.com/)
 
 ---
