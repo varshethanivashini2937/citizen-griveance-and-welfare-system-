@@ -22,8 +22,8 @@ An AI-powered platform designed to streamline the process of filing grievances a
 
 ## 🏆 HackElite Submission Details
 
-- **Team Name**: ""
-- **Problem Statement**: ""
+- **Team Name**: LogicLass
+- **Problem Statement**: citizen grievance & welfare intelligence
 - **Solution Type**: Software (Web Application)
 
 ## 🏆 Credits & Attributions
