@@ -1,0 +1,52 @@
+/* --- Timeline --- */
+.timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #e2e8f0;
+    z-index: 0;
+}
+
+.timeline-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 25%;
+}
+
+.timeline-dot {
+    width: 30px;
+    height: 30px;
+    background: white;
+    border: 3px solid #cbd5e1;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    transition: all 0.3s;
+}
+
+.timeline-step.active .timeline-dot {
+    border-color: var(--success);
+    background: var(--success);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+}
+
+.timeline-text {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.timeline-step.active .timeline-text {
+    color: var(--success);
+}

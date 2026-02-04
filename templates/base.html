@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citizen Grievance & Welfare Intelligent System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timeline.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="particles"></div>
+
+    <nav class="container navbar">
+        <a href="/" class="logo">
+            <i class="fas fa-shield-alt"></i> CitizenConnect
+        </a>
+        <div class="nav-links">
+            <a href="/" class="nav-link" data-i18n="nav_home">Home</a>
+            <a href="/dashboard" class="nav-link"><i class="fas fa-plus-circle"></i> <span data-i18n="nav_file">File
+                    Grievance</span></a>
+            <a href="/dashboard" class="nav-link"><i class="fas fa-search"></i> <span data-i18n="nav_track">Track
+                    Status</span></a>
+            <a href="/dashboard" class="nav-link"><i class="fas fa-th-large"></i> <span
+                    data-i18n="nav_dash">Dashboard</span></a>
+            <a href="/welfare" class="nav-link" data-i18n="nav_welfare">Welfare</a>
+        </div>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <select class="form-control" onchange="changeLanguage(this.value)" style="width: auto; padding: 5px 10px;">
+                <option value="en">English</option>
+                <option value="ta">Tamil</option>
+                <option value="te">Telugu</option>
+                <option value="ml">Malayalam</option>
+                <option value="hi">Hindi</option>
+            </select>
+            <a href="/login" class="nav-link btn btn-primary"
+                style="color: white; padding: 8px 20px; border-radius: 20px;" data-i18n="nav_login">Login / Register</a>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Chatbot Floating Button -->
+    <div class="btn-floating" onclick="toggleChat()">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- Chatbot Window -->
+    <div class="chatbot-container" id="chatbot-container">
+        <div class="chatbot-header">
+            <span><i class="fas fa-robot"></i> AI Assistant</span>
+            <span style="cursor:pointer" onclick="toggleChat()">×</span>
+        </div>
+        <div class="chatbot-body" id="chatbot-messages">
+            <div class="chat-msg bot-msg" data-i18n="chat_welcome">Hello! I am your grievance assistant. How can I help
+                you today? You can speak
+                to me as well!</div>
+        </div>
+        <div class="chatbot-footer">
+            <input type="text" class="form-control" data-placeholder="chat_input_placeholder" placeholder="Type here..."
+                id="chat-input" style="border-radius:20px;">
+            <button class="btn btn-primary" style="padding: 8px 12px; border-radius: 50%;"><i
+                    class="fas fa-paper-plane"></i></button>
+            <button class="btn btn-secondary" onclick="startVoiceInput('chat-input')"
+                style="padding: 8px 12px; border-radius: 50%;"><i class="fas fa-microphone"></i></button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

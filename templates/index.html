@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="container hero">
+    <div class="hero-content">
+        <div class="hero-badge" data-i18n="hero_badge">● Live: Intelligent Grievance System</div>
+
+        <h1 class="hero-title" style="color: #1F4E79; background: none; -webkit-text-fill-color: initial;"
+            data-i18n="hero_headline">
+            Your Voice,<br>Powerfully Heard.
+        </h1>
+
+        <p class="hero-subtitle" data-i18n="hero_subtext">
+            An AI-powered platform connecting citizens with governance. File complaints via voice, track real-time
+            status, and see rapid resolution.
+        </p>
+
+        <div style="display: flex; gap: 15px; margin-top: 30px;">
+            <a href="/dashboard" class="btn btn-primary" style="padding: 15px 30px; border-radius: 30px;"
+                data-i18n="hero_btn_file">
+                File a Grievance <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="/dashboard" class="btn btn-outline" style="padding: 15px 30px; border-radius: 30px;"
+                data-i18n="hero_btn_track">
+                Track Status
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-image" style="flex-direction: column; gap: 30px; justify-content: center; align-items: flex-end;">
+        <!-- Floating Card 1 -->
+        <div class="feature-card glass-card">
+            <div class="icon-box" style="background: #dcfce7; color: #16a34a;">
+                <i class="fas fa-microphone"></i>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 5px;" data-i18n="card_voice_title">Voice-to-Ticket</h4>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="card_voice_desc">
+                    Just speak your concern. Our AI transcribes, categorizes, and assigns it instantly.
+                </p>
+            </div>
+        </div>
+
+        <!-- Floating Card 2 -->
+        <div class="feature-card glass-card" style="margin-right: 50px;">
+            <div class="icon-box" style="background: #f3e8ff; color: #9333ea;">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 5px;" data-i18n="card_auto_title">Auto-Prioritization</h4>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);" data-i18n="card_auto_desc">
+                    Urgent issues like "electricity failure" are automatically flagged as High Priority.
+                </p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="how-it-works" class="container" style="padding: 80px 20px;">
+    <h2 style="text-align: center; margin-bottom: 50px; font-size: 2.5rem; color: var(--dark);">How It Works</h2>
+
+    <div class="stats-grid">
+        <div class="glass-card" style="text-align: center;">
+            <i class="fas fa-user-plus" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;"></i>
+            <h3>1. Login</h3>
+            <p style="color: var(--text-secondary); margin-top: 10px;">Secure citizen login via OTP or Email.</p>
+        </div>
+        <div class="glass-card" style="text-align: center;">
+            <i class="fas fa-microphone-alt" style="font-size: 40px; color: var(--secondary); margin-bottom: 20px;"></i>
+            <h3>2. Speak Up</h3>
+            <p style="color: var(--text-secondary); margin-top: 10px;">Use voice or text to explain your grievance.</p>
+        </div>
+        <div class="glass-card" style="text-align: center;">
+            <i class="fas fa-brain" style="font-size: 40px; color: var(--accent); margin-bottom: 20px;"></i>
+            <h3>3. AI Processing</h3>
+            <p style="color: var(--text-secondary); margin-top: 10px;">Our AI detects urgency & sector automatically.
+            </p>
+        </div>
+        <div class="glass-card" style="text-align: center;">
+            <i class="fas fa-check-circle" style="font-size: 40px; color: var(--success); margin-bottom: 20px;"></i>
+            <h3>4. Resolution</h3>
+            <p style="color: var(--text-secondary); margin-top: 10px;">Track status real-time until resolved.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

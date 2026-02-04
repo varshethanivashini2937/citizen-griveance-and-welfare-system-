@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div class="glass-card" style="width: 100%; max-width: 450px;">
+        <h2 style="text-align: center; margin-bottom: 30px;" data-i18n="login_welcome">Welcome Back</h2>
+
+        <form onsubmit="login(event)">
+            <div class="form-group">
+                <label class="form-label" data-i18n="name_label">Full Name</label>
+                <input type="text" id="name" class="form-control" placeholder="John Doe">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="email_label">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" data-i18n="password_label">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;"
+                data-i18n="login_btn">
+                Login / Signup
+            </button>
+
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: var(--text-secondary);"
+                data-i18n="login_footer">
+                Don't have an account? No worries, we'll create one if it doesn't exist.
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

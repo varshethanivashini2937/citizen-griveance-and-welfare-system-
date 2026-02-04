@@ -1,0 +1,6 @@
+flask
+sqlalchemy
+flask-sqlalchemy
+flask-cors
+werkzeug
+textblob

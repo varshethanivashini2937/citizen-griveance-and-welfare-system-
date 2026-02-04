@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="padding: 40px 20px;">
+    <h1 class="hero-title" style="text-align: center; font-size: 3rem; margin-bottom: 50px;">
+        <span data-i18n="welfare_title">Government Welfare Schemes</span>
+    </h1>
+
+    <div class="stats-grid">
+        <!-- Scheme 1 -->
+        <div class="glass-card">
+            <h3 style="color: var(--primary); margin-bottom: 10px;" data-i18n="scheme_1_title">Pradhan Mantri Awas
+                Yojana</h3>
+            <p style="margin-bottom: 15px;" data-i18n="scheme_1_desc">Affordable housing for all citizens. Apply for
+                subsidies on home loans and construction.</p>
+            <button class="btn btn-secondary" style="width: 100%;">Check Eligibility</button>
+        </div>
+
+        <!-- Scheme 2 -->
+        <div class="glass-card">
+            <h3 style="color: var(--secondary); margin-bottom: 10px;" data-i18n="scheme_2_title">Ayushman Bharat</h3>
+            <p style="margin-bottom: 15px;" data-i18n="scheme_2_desc">Free medical coverage up to ₹5 Lakhs per family
+                per year for secondary and tertiary care hospitalization.</p>
+            <button class="btn btn-secondary" style="width: 100%;">Apply Card</button>
+        </div>
+
+        <!-- Scheme 3 -->
+        <div class="glass-card">
+            <h3 style="color: var(--accent); margin-bottom: 10px;" data-i18n="scheme_3_title">PM Kisan Samman Nidhi</h3>
+            <p style="margin-bottom: 15px;" data-i18n="scheme_3_desc">Income support of ₹6,000 per year for all
+                landholding farmer families.</p>
+            <button class="btn btn-secondary" style="width: 100%;">Register</button>
+        </div>
+
+        <!-- Scheme 4 -->
+        <div class="glass-card">
+            <h3 style="color: var(--success); margin-bottom: 10px;" data-i18n="scheme_4_title">Atal Pension Yojana</h3>
+            <p style="margin-bottom: 15px;" data-i18n="scheme_4_desc">A pension scheme for citizens of India focused on
+                the unorganized sector workers.</p>
+            <button class="btn btn-secondary" style="width: 100%;">Enroll Now</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

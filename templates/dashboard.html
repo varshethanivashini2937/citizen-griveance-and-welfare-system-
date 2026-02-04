@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 40px; padding-bottom: 40px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2><span data-i18n="dash_title_prefix">Dashboard of</span> <span id="user-name">Citizen</span></h2>
+        <button class="btn btn-secondary" onclick="window.location.href='/'" data-i18n="dash_logout">Logout</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px;">
+
+        <!-- Left Column: File Grievance -->
+        <div>
+            <div class="glass-card">
+                <h3 style="margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <i class="fas fa-edit"></i> <span data-i18n="dash_file_grievance">File New Grievance</span>
+                </h3>
+
+                <form onsubmit="submitComplaint(event)">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="dash_pincode">Location Pincode</label>
+                        <input type="text" id="pincode" class="form-control" data-placeholder="pincode_placeholder"
+                            placeholder="e.g. 600001" required pattern="[0-9]{6}">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span data-i18n="dash_desc">Complaint Description</span>
+                            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-secondary);"
+                                data-i18n="dash_type_speak">(Type or
+                                Speak)</span>
+                        </label>
+                        <div style="position: relative;">
+                            <textarea id="complaint-desc" class="form-control" rows="5"
+                                data-placeholder="desc_placeholder"
+                                placeholder="Describe your issue... e.g., 'There is a huge pothole on Main Street causing accidents.'"
+                                required oninput="analyzeText(this.value)"></textarea>
+                            <button type="button" onclick="startVoiceInput('complaint-desc')" class="btn btn-primary"
+                                style="position: absolute; bottom: 10px; right: 10px; padding: 6px 12px; font-size: 0.8rem; border-radius: 20px;"
+                                data-i18n="dash_record_btn">
+                                🎤 Record
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="dash_detected_sector">Detected Sector
+                            (Auto-Selected)</label>
+                        <div class="sector-grid">
+                            <div class="sector-item" data-sector="Roads">
+                                <i class="fas fa-road sector-icon"></i> <span data-i18n="sector_roads">Roads</span>
+                            </div>
+                            <div class="sector-item" data-sector="Electricity">
+                                <i class="fas fa-bolt sector-icon"></i> <span
+                                    data-i18n="sector_electricity">Electricity</span>
+                            </div>
+                            <div class="sector-item" data-sector="Water">
+                                <i class="fas fa-faucet sector-icon"></i> <span data-i18n="sector_water">Water</span>
+                            </div>
+                            <div class="sector-item" data-sector="Health">
+                                <i class="fas fa-heartbeat sector-icon"></i> <span
+                                    data-i18n="sector_health">Health</span>
+                            </div>
+                            <div class="sector-item" data-sector="Education">
+                                <i class="fas fa-graduation-cap sector-icon"></i> <span
+                                    data-i18n="sector_education">Education</span>
+                            </div>
+                            <div class="sector-item" data-sector="Law & Order">
+                                <i class="fas fa-gavel sector-icon"></i> <span data-i18n="sector_police">Police</span>
+                            </div>
+                            <div class="sector-item" data-sector="Welfare">
+                                <i class="fas fa-hands-helping sector-icon"></i> <span
+                                    data-i18n="sector_welfare">Welfare</span>
+                            </div>
+                            <div class="sector-item" data-sector="Other">
+                                <i class="fas fa-ellipsis-h sector-icon"></i> <span
+                                    data-i18n="sector_other">Other</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="dash_attachment">Attachment (Optional)</label>
+                        <input type="file" class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; justify-content: center; margin-top: 10px;" data-i18n="dash_submit_btn">
+                        Submit Grievance
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Column: Track & History -->
+        <div style="display: flex; flex-direction: column; gap: 30px;">
+
+            <!-- Track Grievance Card -->
+            <div class="glass-card">
+                <h3 style="margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <i class="fas fa-search-location"></i> <span data-i18n="dash_track_title">Track Grievance</span>
+                </h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="track-id" class="form-control" data-placeholder="track_placeholder"
+                        placeholder="Enter Complaint ID" style="flex: 1;">
+                    <button class="btn btn-secondary" onclick="trackComplaint()">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div id="track-result"
+                    style="margin-top: 15px; display: none; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 10px;">
+                    <!-- Result will be populated here -->
+                </div>
+            </div>
+
+            <!-- History Card -->
+            <div class="glass-card" style="flex: 1; min-height: 0; overflow-y: auto;">
+                <h3 style="margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">
+                    <i class="fas fa-history"></i> <span data-i18n="dash_history_title">Your Complaints</span>
+                </h3>
+                <div id="complaint-list">
+                    <p style="text-align: center; color: var(--text-secondary); margin-top: 50px;"
+                        data-i18n="dash_loading">Loading your
+                        history...</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

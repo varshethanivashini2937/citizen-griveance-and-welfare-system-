@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 40px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h2><i class="fas fa-user-shield"></i> Admin Dashboard</h2>
+        <button class="btn btn-secondary" onclick="window.location.href='/'">Logout</button>
+    </div>
+
+    <!-- Analytics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value" id="stats-total">-</div>
+            <div class="stat-label">Total Complaints</div>
+        </div>
+        <div class="stat-card" style="border-left-color: var(--danger);">
+            <div class="stat-value" id="stats-high" style="color: var(--danger);">-</div>
+            <div class="stat-label">High Priority</div>
+        </div>
+        <div class="stat-card" style="border-left-color: var(--warning);">
+            <div class="stat-value" id="stats-pending" style="color: var(--warning);">-</div>
+            <div class="stat-label">Pending Action</div>
+        </div>
+        <div class="stat-card" style="border-left-color: var(--success);">
+            <div class="stat-value" id="stats-resolved" style="color: var(--success);">-</div>
+            <div class="stat-label">Resolved</div>
+        </div>
+    </div>
+
+    <!-- Clustered Analytics -->
+    <div class="glass-card" style="margin-bottom: 30px;">
+        <h3 style="margin-bottom: 20px;">🔥 Top Grievance Topics (Merged)</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="text-align: left; border-bottom: 2px solid #ccc; color: var(--text-secondary);">
+                    <th style="padding: 10px;">Topic / Sector Area</th>
+                    <th style="padding: 10px;">Total Complaints</th>
+                    <th style="padding: 10px;">In Process</th>
+                    <th style="padding: 10px;">Resolved</th>
+                    <th style="padding: 10px;">Action Needed</th>
+                </tr>
+            </thead>
+            <tbody id="clusters-table-body">
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Recent Activity Table -->
+    <div class="glass-card">
+        <h3 style="margin-bottom: 20px;">Recent Individual Complaints</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="text-align: left; border-bottom: 2px solid #ccc; color: var(--text-secondary);">
+                    <th style="padding: 10px;">ID</th>
+                    <th style="padding: 10px;">Category</th>
+                    <th style="padding: 10px;">Pincode</th>
+                    <th style="padding: 10px;">Priority</th>
+                    <th style="padding: 10px;">Status</th>
+                    <th style="padding: 10px;">Action</th>
+                </tr>
+            </thead>
+            <tbody id="admin-table-body">
+                <tr>
+                    <td colspan="6" style="padding: 20px; text-align: center;">Loading data...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const res = await fetch('/api/admin/stats');
+        const data = await res.json();
+
+        // Use global translations if available, else default to English
+        const lang = document.querySelector('select[onchange*="changeLanguage"]')?.value || 'en';
+        const t = (typeof translations !== 'undefined') ? translations[lang] : {};
+
+        const translateCategory = (cat) => {
+            const map = { 'Roads': t.sector_roads || 'Roads', 'Electricity': t.sector_electricity || 'Electricity', 'Water': t.sector_water || 'Water', 'Health': t.sector_health || 'Health', 'Education': t.sector_education || 'Education', 'Law & Order': t.sector_police || 'Police', 'Welfare': t.sector_welfare || 'Welfare', 'Other': t.sector_other || 'Other' };
+            return map[cat] || cat;
+        };
+
+        const translatePriority = (p) => {
+            const map = { 'High': t.priority_high || 'High', 'Medium': t.priority_medium || 'Medium', 'Low': t.priority_low || 'Low' };
+            return map[p] || p;
+        };
+
+        const translateStatus = (s) => {
+            const map = { 'Submitted': t.status_submitted || 'Submitted', 'Assigned': t.status_assigned || 'Assigned', 'In Progress': t.status_in_progress || 'In Progress', 'Resolved': t.status_resolved || 'Resolved' };
+            return map[s] || s;
+        };
+
+        document.getElementById('stats-total').innerText = data.total;
+        document.getElementById('stats-high').innerText = data.high;
+        document.getElementById('stats-pending').innerText = data.pending;
+        document.getElementById('stats-resolved').innerText = data.resolved;
+
+        const tbodyRec = document.getElementById('admin-table-body');
+        tbodyRec.innerHTML = data.recent_complaints.map(c => `
+            <tr style="border-bottom: 1px solid #DADDE1;">
+                <td style="padding: 15px 10px;">#${c.id}</td>
+                <td style="padding: 15px 10px;">${translateCategory(c.category)}</td>
+                <td style="padding: 15px 10px;">${c.pincode}</td>
+                <td style="padding: 15px 10px;"><span class="status-badge status-${c.priority}">${translatePriority(c.priority)}</span></td>
+                <td style="padding: 15px 10px;"><span class="status-badge status-${c.status}">${translateStatus(c.status)}</span></td>
+                <td style="padding: 15px 10px;">
+                    <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.8rem;">View</button>
+                    <button class="btn btn-primary" style="padding: 4px 8px; font-size: 0.8rem;">Update</button>
+                </td>
+            </tr>
+        `).join('');
+
+        const tbodyCluster = document.getElementById('clusters-table-body');
+        if (data.clusters && data.clusters.length > 0) {
+            tbodyCluster.innerHTML = data.clusters.map(c => {
+                // Topic translation (simple replacement for demo)
+                let translatedTopic = c.topic;
+                if (lang !== 'en') {
+                    const sector = c.topic.split(' Issue ')[0];
+                    translatedTopic = `${translateCategory(sector)} Issue in ${c.pincode}`;
+                }
+                return `
+                <tr style="border-bottom: 1px solid #DADDE1;">
+                    <td style="padding: 15px 10px; font-weight: 600;">${translatedTopic}</td>
+                    <td style="padding: 15px 10px; font-size: 1.1rem;">${c.total}</td>
+                    <td style="padding: 15px 10px; color: var(--warning);">${c.processing}</td>
+                    <td style="padding: 15px 10px; color: var(--success);">${c.resolved}</td>
+                    <td style="padding: 15px 10px;">
+                        ${c.total > 5 ? '<span style="color:var(--danger); font-weight:bold;">High Attention</span>' : 'Monitor'}
+                    </td>
+                </tr>
+            `}).join('');
+        } else {
+            tbodyCluster.innerHTML = '<tr><td colspan="5" style="padding:20px; text-align:center;">No clustered data available yet.</td></tr>';
+        }
+    });
+</script>
+{% endblock %}
