@@ -10,6 +10,17 @@ import random
 app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
 
+# Ensure NLTK corpora are downloaded for TextBlob (Required for Vercel/Production)
+import nltk
+try:
+    nltk.data.find('corpora/punkt')
+    nltk.data.find('corpora/brown')
+except LookupError:
+    nltk.download('punkt')
+    nltk.download('brown')
+    nltk.download('wordnet')
+    nltk.download('punkt_tab')
+
 # Database Configuration
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
